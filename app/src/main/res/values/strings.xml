@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name" translatable="false">GP_Project</string>
+
+    <string name="label_emailpassword">Email/Password Authentication</string>
+
+
+    <string name="hint_user_id">User ID</string>
+    <string name="get_custom_token">Get Token</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="disconnect" translatable="false">Disconnect</string>
+    <string name="loading">Loading…</string>
+    <string name="custom_token" translatable="false">Custom Token</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="token_null">Token: null</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="desc_firebase_lockup" translatable="false">Firebase logo and name</string>
+
+
+    <string name="emailpassword_status_fmt">Email User: %s</string>
+    <string name="emailpassword_title_text">Email and Password</string>
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+
+</resources>
