@@ -10,6 +10,7 @@ import com.gmail.abanoubwagih.gp_project.Log_in_auth.EmailPasswordActivity;
 public class LaunchActivty extends AppCompatActivity {
 
     private CountDown countDown;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

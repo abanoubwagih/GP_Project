@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gmail.abanoubwagih.gp_project">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,7 +18,6 @@
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -21,7 +25,19 @@
             android:name=".Log_in_auth.EmailPasswordActivity"
             android:label="@string/label_emailpassword"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".BuildingHandle.BuildingListActivity"></activity>
+        <activity android:name=".BuildingHandle.BuildingListActivity">
+
+        </activity>
+
+        <receiver
+            android:name=".Notification_and_SMS_Handler.SMSReceiveHandler"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
