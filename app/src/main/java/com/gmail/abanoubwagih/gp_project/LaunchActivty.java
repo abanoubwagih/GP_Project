@@ -7,13 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.gmail.abanoubwagih.gp_project.Log_in_auth.EmailPasswordActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class LaunchActivty extends AppCompatActivity {
 
     private CountDown countDown;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_launch);
 
         countDown = new CountDown(5000, 1000);
         countDown.start();
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onFinish() {
-            startActivity(new Intent(MainActivity.this, EmailPasswordActivity.class));
+            startActivity(new Intent(LaunchActivty.this, EmailPasswordActivity.class));
         }
     }
 }
