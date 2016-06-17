@@ -1,5 +1,6 @@
 package com.gmail.abanoubwagih.gp_project.Log_in_auth;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.gmail.abanoubwagih.gp_project.BuildingHandle.BuildingListActivity;
 import com.gmail.abanoubwagih.gp_project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -83,7 +85,7 @@ public class EmailPasswordActivity extends BaseActivity implements
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
-        mAuth.signOut();
+//        mAuth.signOut();
     }
     // [END on_stop_remove_listener]
 
@@ -108,7 +110,7 @@ public class EmailPasswordActivity extends BaseActivity implements
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail", task.getException());
-                            Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
+                            Toast.makeText(EmailPasswordActivity.this, "Authentication failed.\n be sure of email or password",
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -147,12 +149,14 @@ public class EmailPasswordActivity extends BaseActivity implements
         hideProgressDialog();
         if (user != null) {
 
-            Toast.makeText(this, " valid email ", Toast.LENGTH_LONG).show();
-            findViewById(R.id.email_password_buttons).setVisibility(View.GONE);
-            findViewById(R.id.email_password_fields).setVisibility(View.GONE);
+//            Toast.makeText(this, " valid account ", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(EmailPasswordActivity.this, BuildingListActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
         } else {
 
-            Toast.makeText(this, "not valid email ", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "please log in ", Toast.LENGTH_LONG).show();
             findViewById(R.id.email_password_buttons).setVisibility(View.VISIBLE);
             findViewById(R.id.email_password_fields).setVisibility(View.VISIBLE);
 

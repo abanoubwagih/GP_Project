@@ -17,12 +17,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Log_in_auth.EmailPasswordActivity"
             android:label="@string/label_emailpassword"
             android:windowSoftInputMode="stateAlwaysHidden" />
-
+        <activity android:name=".BuildingHandle.BuildingListActivity"></activity>
     </application>
 
 </manifest>
