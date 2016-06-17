@@ -22,4 +22,8 @@
     <string name="emailpassword_title_text">Email and Password</string>
     <string name="firebase_status_fmt">Firebase User: %s</string>
 
+    <!--welcome screen-->
+    <string name="welcome">Fire System Alarm App</string>
+    <string name="sayWelcome">Welcome</string>
+
 </resources>
