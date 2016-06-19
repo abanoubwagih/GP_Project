@@ -6,6 +6,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 
 import com.gmail.abanoubwagih.gp_project.Log_in_auth.EmailPasswordActivity;
+import com.gmail.abanoubwagih.gp_project.Notification_and_SMS_Handler.RegistrationToken;
 
 public class LaunchActivty extends AppCompatActivity {
 
@@ -16,6 +17,8 @@ public class LaunchActivty extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
 
+        RegistrationToken token = new RegistrationToken();
+        token.onTokenRefresh();
         countDown = new CountDown(5000, 1000);
         countDown.start();
 

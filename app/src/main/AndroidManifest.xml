@@ -29,6 +29,7 @@
 
         </activity>
 
+        <!-- [START SMS] -->
         <receiver
             android:name=".Notification_and_SMS_Handler.SMSReceiveHandler"
             android:enabled="true"
@@ -38,6 +39,23 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
+        <!-- [END SMS] -->
+
+        <!-- [START notification] -->
+        <service android:name=".Notification_and_SMS_Handler.NotificationHandler">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- [END notification] -->
+
+        <!-- [START RegistrationToken] -->
+        <service android:name=".Notification_and_SMS_Handler.RegistrationToken">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- [END RegistrationToken] -->
     </application>
 
 </manifest>
