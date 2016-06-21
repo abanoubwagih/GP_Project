@@ -26,5 +26,8 @@
     <!--welcome screen-->
     <string name="welcome">Fire System Alarm App</string>
     <string name="sayWelcome">Welcome</string>
+    <string name="description">this is my description</string>
+    <string name="building_name">Building name</string>
+    <string name="building_status">true</string>
 
 </resources>
