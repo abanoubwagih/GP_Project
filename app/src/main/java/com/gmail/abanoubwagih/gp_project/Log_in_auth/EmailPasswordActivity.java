@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gmail.abanoubwagih.gp_project.BuildingHandle.BuildingListActivity;
+import com.gmail.abanoubwagih.gp_project.PasswordResetEmail;
 import com.gmail.abanoubwagih.gp_project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -43,7 +44,7 @@ public class EmailPasswordActivity extends BaseActivity implements
 
         // Buttons
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
-
+        findViewById(R.id.email_forget_password_button).setOnClickListener(this);
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
@@ -169,7 +170,11 @@ public class EmailPasswordActivity extends BaseActivity implements
             case R.id.email_sign_in_button:
                 signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
                 break;
-
+            case R.id.email_forget_password_button:
+                startActivity(new Intent(EmailPasswordActivity.this, PasswordResetEmail.class));
+                Log.d("wwwww","rest");
+                break;
         }
     }
+
 }

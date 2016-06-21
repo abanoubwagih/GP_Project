@@ -29,5 +29,7 @@
     <string name="description">this is my description</string>
     <string name="building_name">Building name</string>
     <string name="building_status">true</string>
+    <string name="reset_password">reset_password</string>
+    <string name="mailSent">Email sent..,</string>
 
 </resources>
