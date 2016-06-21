@@ -23,6 +23,7 @@ public class BuildingListAdapter extends ArrayAdapter<Building> {
 
     public BuildingListAdapter(Context context, int resource, List<Building> objects) {
         super(context, resource, objects);
+
         products = objects;
 
     }
