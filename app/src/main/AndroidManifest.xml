@@ -58,7 +58,7 @@
         </service>
         <!-- [END RegistrationToken] -->
         <activity android:name=".BuildingHandle.BuildingDetailsActivty" />
-        <activity android:name=".PasswordResetEmail"></activity>
+        <activity android:name=".Log_in_auth.PasswordResetEmail"></activity>
     </application>
 
 </manifest>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 
+import com.gmail.abanoubwagih.gp_project.BuildingHandle.RetriveDataFromFirebase;
 import com.gmail.abanoubwagih.gp_project.Log_in_auth.EmailPasswordActivity;
 import com.gmail.abanoubwagih.gp_project.Notification_and_SMS_Handler.RegistrationToken;
 
@@ -19,6 +20,7 @@ public class LaunchActivty extends AppCompatActivity {
 
         RegistrationToken token = new RegistrationToken();
         token.onTokenRefresh();
+        new RetriveDataFromFirebase().retrive();
         countDown = new CountDown(5000, 1000);
         countDown.start();
 

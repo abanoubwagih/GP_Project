@@ -37,4 +37,8 @@ public class Building {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return getBuildingId() + getName() + getDescription() + getTemperature() + getStatus();
+    }
 }

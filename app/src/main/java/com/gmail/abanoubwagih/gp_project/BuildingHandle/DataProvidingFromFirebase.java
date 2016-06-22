@@ -11,7 +11,12 @@ public final class DataProvidingFromFirebase {
     public static Map<String, Building> buildingMap = new HashMap<>();
 
 
-    private static void addBuilding(String BuildingId, String name, String description, double temperature, boolean status) {
+    public static void addBuilding(Building building) {
+        buildingList.add(building);
+        buildingMap.put(building.getBuildingId(), building);
+    }
+
+    public static void addBuilding(String BuildingId, String name, String description, double temperature, boolean status) {
         Building building = new Building(BuildingId, name, description, temperature, status);
         buildingList.add(building);
         buildingMap.put(BuildingId, building);
