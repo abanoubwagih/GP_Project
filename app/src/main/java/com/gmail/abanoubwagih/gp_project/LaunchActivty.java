@@ -6,7 +6,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 
 import com.gmail.abanoubwagih.gp_project.Log_in_auth.EmailPasswordActivity;
-import com.gmail.abanoubwagih.gp_project.Notification_and_SMS_Handler.RegistrationToken;
+import com.gmail.abanoubwagih.gp_project.UserHandler.RegistrationToken;
 
 public class LaunchActivty extends AppCompatActivity {
 

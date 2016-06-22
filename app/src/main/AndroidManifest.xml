@@ -51,14 +51,14 @@
 
 
         <!-- [START RegistrationToken] -->
-        <service android:name=".Notification_and_SMS_Handler.RegistrationToken">
+        <service android:name=".UserHandler.RegistrationToken">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <!-- [END RegistrationToken] -->
         <activity android:name=".BuildingHandle.BuildingDetailsActivty" />
-        <activity android:name=".PasswordResetEmail"></activity>
+        <activity android:name=".Log_in_auth.PasswordResetEmail"></activity>
     </application>
 
 </manifest>

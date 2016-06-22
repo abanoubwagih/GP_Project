@@ -1,4 +1,4 @@
-package com.gmail.abanoubwagih.gp_project.Notification_and_SMS_Handler;
+package com.gmail.abanoubwagih.gp_project.UserHandler;
 
 import android.util.Log;
 
