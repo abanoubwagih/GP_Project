@@ -7,6 +7,7 @@ public class Building {
     private int buildingId;
     private String name;
     private String description;
+    private String photo;
     private double temperature;
     private boolean status;
     private HashMap<String, Double> buildingGPS;
@@ -14,14 +15,16 @@ public class Building {
     public Building() {
     }
 
-    public Building(int buildingId, String name, String description, double temperature, boolean status, HashMap<String, Double> buildingGPS) {
+    public Building(int buildingId, String name, String description, String photo, double temperature, boolean status, HashMap<String, Double> buildingGPS) {
         this.buildingId = buildingId;
         this.name = name;
         this.description = description;
+        this.photo = photo;
         this.temperature = temperature;
         this.status = status;
         this.buildingGPS = buildingGPS;
     }
+
 
     public int getBuildingId() {
         return buildingId;
@@ -69,5 +72,13 @@ public class Building {
 
     public void setBuildingGPS(HashMap<String, Double> buildingGPS) {
         this.buildingGPS = buildingGPS;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

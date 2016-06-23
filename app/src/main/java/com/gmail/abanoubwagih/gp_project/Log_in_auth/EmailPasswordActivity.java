@@ -1,6 +1,8 @@
 package com.gmail.abanoubwagih.gp_project.Log_in_auth;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -10,12 +12,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gmail.abanoubwagih.gp_project.BuildingHandle.BuildingListActivity;
+import com.gmail.abanoubwagih.gp_project.BuildingHandle.DataProvidingFromFirebase;
 import com.gmail.abanoubwagih.gp_project.R;
+import com.gmail.abanoubwagih.gp_project.UserHandler.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class EmailPasswordActivity extends BaseActivity implements
         View.OnClickListener {
@@ -96,7 +105,7 @@ public class EmailPasswordActivity extends BaseActivity implements
             return;
         }
 
-        showProgressDialog();
+        showProgressDialog(R.string.login);
 
         // [START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
@@ -149,10 +158,9 @@ public class EmailPasswordActivity extends BaseActivity implements
         hideProgressDialog();
         if (user != null) {
 
-//            Toast.makeText(this, " valid account ", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(EmailPasswordActivity.this, BuildingListActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            RetrieveData2 retrieveData = new RetrieveData2();
+            retrieveData.execute(mEmailField.getText().toString().split("@")[0]);
+
 
         } else {
 
@@ -176,4 +184,87 @@ public class EmailPasswordActivity extends BaseActivity implements
         }
     }
 
+    public class RetrieveData2 extends AsyncTask<String, String, String> {
+        private static final String TAG = "RetrieveData";
+        private DatabaseReference mDatabase;
+        private ProgressDialog mProgressDia;
+
+        // show loading progress
+        public void showProgressDia(int value) {
+
+            mProgressDia = new ProgressDialog(EmailPasswordActivity.this);
+            mProgressDia.setMessage(getString(value));
+            mProgressDia.setIndeterminate(true);
+
+
+            mProgressDia.show();
+        }
+
+        //hide loading progress
+        public void hideProgressDia() {
+            if (mProgressDia != null && mProgressDia.isShowing()) {
+
+                mProgressDia.dismiss();
+            }
+        }
+
+        public void refreshData(String userName) {
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+
+//        if(userName) userName = "abanoubwagih";
+            DatabaseReference mUserReference = mDatabase.child("users").child(userName);
+
+            ValueEventListener postListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // Get user object and use the values to update the UI
+
+                    User user = dataSnapshot.getValue(User.class);
+                    DataProvidingFromFirebase.addBuilding(user.getBuilding());
+                    Log.d("download", "done");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            hideProgressDia();
+                            Intent intent = new Intent(EmailPasswordActivity.this, BuildingListActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    });
+
+                    // ...
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Getting Post failed, log a message
+                    Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                    // ...
+                }
+            };
+            mUserReference.addValueEventListener(postListener);
+
+
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            refreshData(params[0]);
+            return "";
+        }
+
+        @Override
+        protected void onPreExecute() {
+            showProgressDia(R.string.loadingData);
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            super.onPostExecute(s);
+        }
+    }
 }

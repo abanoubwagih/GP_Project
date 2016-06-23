@@ -1,5 +1,6 @@
 package com.gmail.abanoubwagih.gp_project;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -10,19 +11,27 @@ import com.gmail.abanoubwagih.gp_project.UserHandler.RegistrationToken;
 
 public class LaunchActivty extends AppCompatActivity {
 
+    public static Context context;
+    public RegistrationToken token;
     private CountDown countDown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
-
-        RegistrationToken token = new RegistrationToken();
+        context = getApplicationContext();
+//        register for token id for connection
+        token = new RegistrationToken();
         token.onTokenRefresh();
-        countDown = new CountDown(5000, 1000);
+////        Upload.uploadToFirebase();//uplaod data to firebase
+//        Toast.makeText(LaunchActivty.this, "data upload", Toast.LENGTH_LONG).show();
+
+
+        countDown = new CountDown(4000, 1000);
         countDown.start();
 
     }
+
 
     public class CountDown extends CountDownTimer {
 

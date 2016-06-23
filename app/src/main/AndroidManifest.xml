@@ -26,6 +26,9 @@
             android:label="@string/label_emailpassword"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".BuildingHandle.BuildingListActivity" />
+        <activity
+            android:name=".BuildingHandle.BuildingDetailsActivty"
+            android:parentActivityName=".BuildingHandle.BuildingListActivity"></activity>
 
         <!-- [START SMS] -->
         <receiver
@@ -57,8 +60,8 @@
             </intent-filter>
         </service>
         <!-- [END RegistrationToken] -->
-        <activity android:name=".BuildingHandle.BuildingDetailsActivty" />
-        <activity android:name=".Log_in_auth.PasswordResetEmail"></activity>
+
+        <activity android:name=".Log_in_auth.PasswordResetEmail" />
     </application>
 
 </manifest>
