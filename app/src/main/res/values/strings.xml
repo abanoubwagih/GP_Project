@@ -32,5 +32,28 @@
     <string name="reset_password">reset_password</string>
     <string name="mailSent">Email sent..,</string>
     <string name="loadingData">loading data</string>
+    <string name="sharedPreferences">com.gmail.abanoubwagih.gp_project.sharedPreferences</string>
+    <string name="loginName">LogingName</string>
+
+    <!--SMS-->
+    <string name="Firebase_Number">01148525938</string>
+    <string name="sms_buildingname">buildingName</string>
+    <string name="sms_buildindStatus">buildingStatus</string>
+    <string name="sms_buildingDescription">buildingDescription</string>
+    <string name="sms_bodyToAnotherActivity">sms_hashMap</string>
+
+    <string name="dataHasBeenStored">dataHasBeenStored</string>
+    <string name="dataStored">dataStored</string>
+    <string name="isFirstRunbase">isFirstRunbase</string>
+    <string name="FIRSTRUN">FIRSTRUN</string>
+    <string name="usrObject">usrObject</string>
+
+    <!--tags-->
+    <string name="Tag_listadapter">ListAdapter</string>
+    <string name="Tag_listActivity">listActivity</string>
+    <string name="Tag_launchActivity">launchActivity</string>
+    <string name="Tag_RegistrationToken">RegistrationToken</string>
+    <string name="Tag_EmailPasswordActivity">EmailPasswordActivity</string>
+    <string name="deny_permission">"you not approve so go out  "</string>
 
 </resources>

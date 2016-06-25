@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gmail.abanoubwagih.gp_project">
 
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
@@ -13,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LaunchActivty"
+            android:name=".LaunchActivity"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,13 +23,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Log_in_auth.EmailPasswordActivity"
+            android:name=".Log_in_auth_and_Synchronous_Data.EmailPasswordActivity"
             android:label="@string/label_emailpassword"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".BuildingHandle.BuildingListActivity" />
+        <activity
+            android:name=".BuildingHandle.BuildingListActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name=".BuildingHandle.BuildingDetailsActivty"
-            android:parentActivityName=".BuildingHandle.BuildingListActivity"></activity>
+            android:parentActivityName=".BuildingHandle.BuildingListActivity" />
 
         <!-- [START SMS] -->
         <receiver
@@ -61,7 +64,12 @@
         </service>
         <!-- [END RegistrationToken] -->
 
-        <activity android:name=".Log_in_auth.PasswordResetEmail" />
+        <activity android:name=".Log_in_auth_and_Synchronous_Data.PasswordResetEmail" />
+
+        <service
+            android:name=".Log_in_auth_and_Synchronous_Data.SynchronizeData"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

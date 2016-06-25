@@ -151,6 +151,7 @@
     <orderEntry type="library" exported="" name="firebase-messaging-9.0.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-gcm-9.0.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-basement-9.0.2" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.5" level="project" />
     <orderEntry type="library" exported="" name="firebase-auth-9.0.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-iid-9.0.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-tasks-9.0.2" level="project" />

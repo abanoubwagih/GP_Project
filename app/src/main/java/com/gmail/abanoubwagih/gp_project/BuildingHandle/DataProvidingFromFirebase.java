@@ -10,7 +10,26 @@ public final class DataProvidingFromFirebase {
     public static List<Building> buildingList = new ArrayList<>();
     public static Map<Integer, Building> buildingMap = new HashMap<>();
 
+    public static List<Building> getBuildingList() {
+        return buildingList;
+    }
 
+    public static void setBuildingList(List<Building> buildingList) {
+        DataProvidingFromFirebase.buildingList = buildingList;
+    }
+
+    public static Map<Integer, Building> getBuildingMap() {
+        return buildingMap;
+    }
+
+    public static void setBuildingMap(Map<Integer, Building> buildingMap) {
+        DataProvidingFromFirebase.buildingMap = buildingMap;
+    }
+
+    public static void clearBuildingListandMap() {
+        if (!buildingList.isEmpty()) buildingList.clear();
+        if (!buildingMap.isEmpty()) buildingMap.clear();
+    }
     public static void addBuilding(List<Building> buildings) {
 
 
@@ -22,6 +41,8 @@ public final class DataProvidingFromFirebase {
         }
 
     }
+
+
 //
 //    public static List<String> getBulidingNames() {
 //        List<String> list = new ArrayList<>();

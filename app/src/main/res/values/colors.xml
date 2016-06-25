@@ -9,4 +9,8 @@
 
     <color name="color_launch">#ffebf2</color>
 
+    <color name="fire_bulidingName">#ffffff</color>
+    <color name="fire_bulidingDescription">#d9030000</color>
+    <color name="fire_bulidingBackground">#da000b</color>
+
 </resources>
