@@ -55,5 +55,9 @@
     <string name="Tag_RegistrationToken">RegistrationToken</string>
     <string name="Tag_EmailPasswordActivity">EmailPasswordActivity</string>
     <string name="deny_permission">"you not approve so go out  "</string>
+    <string name="title_activity_maps">BuildingMap</string>
+    <string name="BuildingGPS">BuildingGPS</string>
+    <string name="GPSLat">lat</string>
+    <string name="GPSLog">lon</string>
 
 </resources>
