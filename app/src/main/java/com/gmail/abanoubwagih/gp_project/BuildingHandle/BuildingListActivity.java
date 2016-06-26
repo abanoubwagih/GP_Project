@@ -46,8 +46,11 @@ public class BuildingListActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 String json = sharedPreferences.getString(getString(R.string.usrObject), "");
                 User user = gson.fromJson(json, User.class);
-                if (user != null)
+                if (user != null){
+                    DataProvidingFromFirebase.clearBuildingListandMap();
+                    DataProvidingFromFirebase.addBuilding(user.getBuilding());
                     buildings.addAll(user.getBuilding());
+                }
             }
             adapter = new BuildingListAdapter(
                     this, R.layout.list_item, buildings);

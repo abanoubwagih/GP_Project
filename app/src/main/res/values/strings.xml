@@ -24,7 +24,7 @@
     <string name="firebase_status_fmt">Firebase User: %s</string>
 
     <!--welcome screen-->
-    <string name="welcome">Fire System Alarm App</string>
+    <string name="welcome">Eagle Cloud App</string>
     <string name="sayWelcome">Welcome</string>
     <string name="description">this is my description</string>
     <string name="building_name">Building name</string>

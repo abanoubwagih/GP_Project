@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gmail.abanoubwagih.gp_project.Log_in_auth_and_Synchronous_Data.SynchronizeData;
 import com.gmail.abanoubwagih.gp_project.R;
 
 import java.io.ByteArrayInputStream;
@@ -33,7 +34,15 @@ public class BuildingDetailsActivty extends AppCompatActivity {
             int buildingID = getIntent().getIntExtra(BUILDING_ID, 0);
 
 
-            Building building = DataProvidingFromFirebase.buildingMap.get(buildingID);
+            Building building = DataProvidingFromFirebase.getBuildingMap().get(buildingID);
+            if(building == null){
+                new SynchronizeData().retriveData();
+
+                while (building == null){
+                    building = DataProvidingFromFirebase.getBuildingMap().get(buildingID);
+                    Thread.sleep(2000);
+                }
+            }
 
             TextView tv = (TextView) findViewById(R.id.buildingName);
             tv.setText(building.getName());

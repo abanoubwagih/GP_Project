@@ -340,10 +340,9 @@ public class EmailPasswordActivity extends BaseActivity implements
 //        if(userName) userName = "abanoubwagih";
             mUserReference = mDatabase.child("users").child(userName);
             mUserReference.keepSynced(true);
-            postListener = new ValueEventListener() {
+            mUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    // Get user object and use the values to update the UI
                     Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
                     User user = dataSnapshot.getValue(User.class);
                     if (user != null) {
@@ -381,18 +380,14 @@ public class EmailPasswordActivity extends BaseActivity implements
                     });
 
 
-                    // ...
-
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    // Getting Post failed, log a message
-                    Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-                    // ...
+
                 }
-            };
-            mUserReference.addValueEventListener(postListener);
+            });
+
 
 
         }

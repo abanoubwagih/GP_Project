@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.gmail.abanoubwagih.gp_project.BuildingHandle.Building;
 import com.gmail.abanoubwagih.gp_project.BuildingHandle.DataProvidingFromFirebase;
 import com.gmail.abanoubwagih.gp_project.R;
 import com.gmail.abanoubwagih.gp_project.UserHandler.User;
@@ -16,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 
 public class SynchronizeData extends Service {
@@ -97,10 +100,36 @@ public class SynchronizeData extends Service {
         doServiceWork();
     }
 
+    public void retriveData(){
+
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferences), MODE_PRIVATE);
+        userName = sharedPreferences.getString(getString(R.string.loginName),"abanoubwagih");
+        mDatabase.child("users").child(userName).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // Get user value
+                        User user = dataSnapshot.getValue(User.class);
+                        if (user != null) {
+                            DataProvidingFromFirebase.clearBuildingListandMap();
+                            DataProvidingFromFirebase.addBuilding(user.getBuilding());
+//                            DataProvidingFromFirebase.getBuildingMap();
+                        }
+                        // ...
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w("read once", "getUser:onCancelled", databaseError.toException());
+                    }
+                });
+    }
     private void doServiceWork() {
         //do something wotever you want
         //like reading file or getting data from network
         try {
+            SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferences), MODE_PRIVATE);
+            userName = sharedPreferences.getString(getString(R.string.loginName),"abanoubwagih");
             if (userName != null) {
                 if (mDatabase == null)
                     mDatabase = firebaseDatabase.getReference();
