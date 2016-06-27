@@ -20,7 +20,6 @@ import com.gmail.abanoubwagih.gp_project.R;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.HashMap;
 
 import static com.gmail.abanoubwagih.gp_project.BuildingHandle.BuildingListActivity.BUILDING_ID;
 
@@ -35,12 +34,12 @@ public class BuildingDetailsActivty extends AppCompatActivity {
         try {
             int buildingID = getIntent().getIntExtra(BUILDING_ID, 0);
 
-
+            final int buildingIDForMap = buildingID;
             Building building = DataProvidingFromFirebase.getBuildingMap().get(buildingID);
-            if(building == null){
+            if (building == null) {
                 new SynchronizeData().retriveData();
 
-                while (building == null){
+                while (building == null) {
                     building = DataProvidingFromFirebase.getBuildingMap().get(buildingID);
                     Thread.sleep(2000);
                 }
@@ -51,7 +50,7 @@ public class BuildingDetailsActivty extends AppCompatActivity {
 
 
 //        String status = String.valueOf(building.isStatus());
-            String status = building.isStatus() ? "save" : "FIre";
+            String status = building.isStatus() ? getString(R.string.buildingSafe) : getString(R.string.buildingFire);
 
             TextView state = (TextView) findViewById(R.id.buildingStatus);
             state.setText(status);
@@ -59,13 +58,13 @@ public class BuildingDetailsActivty extends AppCompatActivity {
             TextView descView = (TextView) findViewById(R.id.descriptionText);
             descView.setText(building.getDescription());
 
-            View view =  findViewById(R.id.activity_details);
+            View view = findViewById(R.id.activity_details);
             if (building.isStatus()) {
-                view.setBackground(getDrawable(R.drawable.item_list_background_save));
+                view.setBackground(getDrawable(R.drawable.item_list_background_safe));
                 tv.setTextColor(Color.BLUE);
                 state.setTextColor(Color.BLUE);
 
-            }else{
+            } else {
                 view.setBackground(getDrawable(R.drawable.item_list_background_fire));
                 tv.setTextColor(Color.WHITE);
                 state.setTextColor(Color.WHITE);
@@ -74,7 +73,7 @@ public class BuildingDetailsActivty extends AppCompatActivity {
 
             }
 
-            final HashMap<String, Double> myGPS = building.getBuildingGPS();
+//            final HashMap<String, Double> myGPS = building.getBuildingGPS();
 
             ImageView iv = (ImageView) findViewById(R.id.buildingImage);
             InputStream stream = new ByteArrayInputStream(Base64.decode(building.getPhoto().getBytes(), Base64.DEFAULT));
@@ -84,10 +83,11 @@ public class BuildingDetailsActivty extends AppCompatActivity {
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(getString(R.string.BuildingGPS), myGPS);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable(getString(R.string.BuildingGPS), myGPS);
                     Intent intent = new Intent(BuildingDetailsActivty.this, MapsActivity.class);
-                    intent.putExtras(bundle);
+//                    intent.putExtras(bundle);
+                    intent.putExtra(BUILDING_ID, buildingIDForMap);
                     startActivity(intent);
 
 

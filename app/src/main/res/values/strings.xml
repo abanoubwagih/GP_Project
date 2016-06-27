@@ -59,5 +59,8 @@
     <string name="BuildingGPS">BuildingGPS</string>
     <string name="GPSLat">lat</string>
     <string name="GPSLog">lon</string>
+    <string name="buildingSafe">safe</string>
+    <string name="buildingFire">FIre</string>
+    <string name="this_is_your_building">This is your building</string>
 
 </resources>

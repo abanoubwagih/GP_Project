@@ -25,7 +25,7 @@ public class BuildingListActivity extends AppCompatActivity {
 
 
     public static final String BUILDING_ID = "BUILDING_ID";
-    private List<Building> buildings;
+    public static List<Building> buildings;
     private BuildingListAdapter adapter;
     private ListView lv;
 
@@ -35,9 +35,9 @@ public class BuildingListActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_building_list);
+        startService(new Intent(getApplication(), SynchronizeData.class));
         try {
 
-            startService(new Intent(getBaseContext(), SynchronizeData.class));
 
             buildings = DataProvidingFromFirebase.getBuildingList();
             if (buildings == null || buildings.isEmpty()) {
@@ -46,9 +46,11 @@ public class BuildingListActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 String json = sharedPreferences.getString(getString(R.string.usrObject), "");
                 User user = gson.fromJson(json, User.class);
-                if (user != null){
+                if (user != null) {
                     DataProvidingFromFirebase.clearBuildingListandMap();
                     DataProvidingFromFirebase.addBuilding(user.getBuilding());
+                    if (BuildingListActivity.buildings != null || !BuildingListActivity.buildings.isEmpty())
+                        buildings.clear();
                     buildings.addAll(user.getBuilding());
                 }
             }
@@ -103,6 +105,10 @@ public class BuildingListActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 String json = sharedPreferences.getString(getString(R.string.usrObject), "");
                 User user = gson.fromJson(json, User.class);
+                DataProvidingFromFirebase.clearBuildingListandMap();
+                DataProvidingFromFirebase.addBuilding(user.getBuilding());
+                if (BuildingListActivity.buildings != null || !BuildingListActivity.buildings.isEmpty())
+                    buildings.clear();
                 buildings.addAll(user.getBuilding());
             }
             adapter.notifyDataSetChanged();
@@ -124,6 +130,10 @@ public class BuildingListActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 String json = sharedPreferences.getString(getString(R.string.usrObject), "");
                 User user = gson.fromJson(json, User.class);
+                DataProvidingFromFirebase.clearBuildingListandMap();
+                DataProvidingFromFirebase.addBuilding(user.getBuilding());
+                if (BuildingListActivity.buildings != null || !BuildingListActivity.buildings.isEmpty())
+                    buildings.clear();
                 buildings.addAll(user.getBuilding());
             }
             adapter.notifyDataSetChanged();

@@ -3,7 +3,7 @@
     android:id="@+id/list_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/item_list_background_save"
+    android:background="@drawable/item_list_background_safe"
     android:paddingBottom="10dp">
 
     <ImageView
@@ -11,6 +11,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_margin="5dp"
+        android:contentDescription="@string/this_is_your_building"
         android:scaleType="fitStart"
         android:src="@drawable/buling1" />
 

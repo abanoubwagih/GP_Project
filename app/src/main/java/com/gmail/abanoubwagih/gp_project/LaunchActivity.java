@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -37,23 +38,16 @@ public class LaunchActivity extends AppCompatActivity {
             if (!isGooglePlayServicesAvailable()) {
                 finish();
             }
-            SharedPreferences wmbPreference = PreferenceManager.getDefaultSharedPreferences(this);
-            boolean isFirstRun = wmbPreference.getBoolean(getString(R.string.FIRSTRUN), true);
-            if (isFirstRun) {
-                // Code to run once
-                //set application to firebase integration it already done by json file in app
-                Firebase.setAndroidContext(this);
-                //enable offline persistent
-                Firebase.getDefaultConfig().setPersistenceEnabled(true);
-                //        register for token id for connection
-                SharedPreferences.Editor editor = wmbPreference.edit();
 
-                editor.putBoolean(getString(R.string.FIRSTRUN), false);
-                editor.commit();
-                editor.apply();
-            }
-            token = new RegistrationToken();
-            token.onTokenRefresh();
+//            new DeleteImagesTask().execute();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    token = new RegistrationToken();
+                    token.onTokenRefresh();
+                }
+            }).start();
 //        Upload.uploadToFirebase();//uplaod data to firebase
 //        Toast.makeText(LaunchActivity.this, "data upload", Toast.LENGTH_LONG).show();
 
@@ -132,6 +126,21 @@ public class LaunchActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == requestCode) {
+            if (
+                    permissions[0] == android.Manifest.permission.RECEIVE_SMS &&
+                            grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+
+            } else {
+
+                finish();
+            }
+        }
+    }
+
     public class CountDown extends CountDownTimer {
 
         /**
@@ -154,5 +163,31 @@ public class LaunchActivity extends AppCompatActivity {
         public void onFinish() {
             startActivity(new Intent(LaunchActivity.this, EmailPasswordActivity.class));
         }
+    }
+
+    private class DeleteImagesTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            SharedPreferences wmbPreference = PreferenceManager.getDefaultSharedPreferences(LaunchActivity.this);
+
+            boolean isFirstRun = wmbPreference.getBoolean(getString(R.string.FIRSTRUN), true);
+            if (isFirstRun) {
+                // Code to run once
+                token = new RegistrationToken();
+                token.onTokenRefresh();
+                //set application to firebase integration it already done by json file in app
+                Firebase.setAndroidContext(LaunchActivity.this);
+                //enable offline persistent
+                Firebase.getDefaultConfig().setPersistenceEnabled(true);
+                //        register for token id for connection
+                SharedPreferences.Editor editor = wmbPreference.edit();
+
+                editor.putBoolean(getString(R.string.FIRSTRUN), false);
+                editor.commit();
+                editor.apply();
+            }
+            return null;
+        }
+
     }
 }

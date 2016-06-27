@@ -1,6 +1,4 @@
 package com.gmail.abanoubwagih.gp_project.Notification_and_SMS_Handler;
-
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,11 +16,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import java.util.HashMap;
-
 /**
  * Created by AbanoubWagih on 6/17/2016.
  */
 public class SMSReceiveHandler extends BroadcastReceiver {
+    public static final String BUILDING_ID = "BUILDING_ID";
     private Context myContext;
     public SMSReceiveHandler() {
 
@@ -40,7 +38,11 @@ public class SMSReceiveHandler extends BroadcastReceiver {
         if (recievedIntentExtras != null) {
             // get the array of the message
             Object[] smsExtraOjects = (Object[]) recievedIntentExtras.get("pdus");
-            smsMessagesArray = new SmsMessage[smsExtraOjects.length];
+            try {
+                smsMessagesArray = new SmsMessage[smsExtraOjects.length];
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             // loop through the number of available messages
             for (int i = 0; i < smsExtraOjects.length; ++i) {
                 // create smsmessage from raw pdu
@@ -48,8 +50,8 @@ public class SMSReceiveHandler extends BroadcastReceiver {
                 smsMessagesArray[i] = SmsMessage.createFromPdu((byte[]) smsExtraOjects[i]);
 
                 // retrieve contents of message
-                String body = smsMessagesArray[i].getMessageBody().toString();
-                String address = smsMessagesArray[i].getOriginatingAddress().toString();
+                String body = smsMessagesArray[i].getMessageBody();
+                String address = smsMessagesArray[i].getOriginatingAddress();
 
                 Log.d("SMS_FromFirebase", address + "\nBody\n " + body);
 
@@ -69,7 +71,7 @@ public class SMSReceiveHandler extends BroadcastReceiver {
                         String num = body.trim();
                         int id = Integer.parseInt(num);
                         handleListOffline(id);
-                        intentTOsmsActivity.putExtra("BUILDING_ID", id);
+                        intentTOsmsActivity.putExtra(BUILDING_ID, id);
 
 
                         context.startActivity(intentTOsmsActivity);
@@ -124,7 +126,7 @@ public class SMSReceiveHandler extends BroadcastReceiver {
                     gson = new Gson();
                     json = gson.toJson(user);
                     prefsEditor.putString(myContext.getString(R.string.usrObject), json);
-                    prefsEditor.commit();
+//                    prefsEditor.commit();
                     prefsEditor.apply();
                 }
             }

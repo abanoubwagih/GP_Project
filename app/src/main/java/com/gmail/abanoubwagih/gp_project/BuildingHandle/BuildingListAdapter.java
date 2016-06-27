@@ -50,13 +50,13 @@ public class BuildingListAdapter extends ArrayAdapter<Building> {
 
 
 //        String status = String.valueOf(building.isStatus());
-            String status = building.isStatus() ? "save" : "FIre";
+            String status = building.isStatus() ? getContext().getString(R.string.buildingSafe) : getContext().getString(R.string.buildingFire);
             TextView state = (TextView) convertView.findViewById(R.id.itemBuildingStatus);
             state.setText(status);
 
 
             if (building.isStatus()) {
-                convertView.setBackground(getContext().getDrawable(R.drawable.item_list_background_save));
+                convertView.setBackground(getContext().getDrawable(R.drawable.item_list_background_safe));
                 nameText.setTextColor(Color.BLACK);
                 state.setTextColor(Color.BLACK);
             } else {

@@ -35,6 +35,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
 public class EmailPasswordActivity extends BaseActivity implements
         View.OnClickListener {
 
@@ -43,14 +45,14 @@ public class EmailPasswordActivity extends BaseActivity implements
     public ValueEventListener postListener;
     public DatabaseReference mUserReference;
     public RetrieveData retrieveData;
+    FirebaseUser user;
     private EditText mEmailField;
     private EditText mPasswordField;
     private SharedPreferences sharedPreferences;
     private FirebaseDatabase firebaseDatabase;
+    // [END declare_auth]
     // [START declare_auth]
     private FirebaseAuth mAuth;
-    // [END declare_auth]
-
     // [START declare_auth_listener]
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean dataHasBeenStored;
@@ -90,7 +92,7 @@ public class EmailPasswordActivity extends BaseActivity implements
             mAuthListener = new FirebaseAuth.AuthStateListener() {
                 @Override
                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    user = firebaseAuth.getCurrentUser();
                     if (user != null) {
                         // User is signed in
                         Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
@@ -104,6 +106,7 @@ public class EmailPasswordActivity extends BaseActivity implements
                 }
             };
             // [END auth_state_listener]
+            goToListAndRetriveDataAndUpdateUI(user);
         } catch (Exception e) {
             Log.d(getString(R.string.Tag_EmailPasswordActivity), e.getMessage());
             FirebaseCrash.report(e);
@@ -265,7 +268,7 @@ public class EmailPasswordActivity extends BaseActivity implements
                                 }
                             }).create().show();
                 }
-                Toast.makeText(this, "please log in ", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "please log in ", Toast.LENGTH_LONG).show();
                 findViewById(R.id.email_password_buttons).setVisibility(View.VISIBLE);
                 findViewById(R.id.email_password_fields).setVisibility(View.VISIBLE);
 
@@ -340,7 +343,7 @@ public class EmailPasswordActivity extends BaseActivity implements
 //        if(userName) userName = "abanoubwagih";
             mUserReference = mDatabase.child("users").child(userName);
             mUserReference.keepSynced(true);
-            mUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            mUserReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
@@ -348,7 +351,19 @@ public class EmailPasswordActivity extends BaseActivity implements
                     if (user != null) {
                         DataProvidingFromFirebase.clearBuildingListandMap();
                         DataProvidingFromFirebase.addBuilding(user.getBuilding());
+                        if (BuildingListActivity.buildings != null) {
+                            if (!BuildingListActivity.buildings.isEmpty()) {
 
+                                BuildingListActivity.buildings.clear();
+                                BuildingListActivity.buildings.addAll(user.getBuilding());
+                            } else {
+                                BuildingListActivity.buildings.addAll(user.getBuilding());
+
+                            }
+                        } else {
+                            BuildingListActivity.buildings = new ArrayList<>();
+                            BuildingListActivity.buildings.addAll(user.getBuilding());
+                        }
 
                         sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferences), MODE_PRIVATE);
                         SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
@@ -387,7 +402,6 @@ public class EmailPasswordActivity extends BaseActivity implements
 
                 }
             });
-
 
 
         }
