@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MapAndRouteHandler.MapsActivity">
+    <item
+        android:id="@+id/Menu_item_setting"
+        android:icon="@drawable/settings_icon"
+        android:orderInCategory="105"
+        android:title="@string/Menu_item_setting"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/map_type_normal"
+        android:orderInCategory="100"
+        android:title="@string/menu_item_normal"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/map_type_satellite"
+        android:orderInCategory="101"
+        android:title="@string/menu_item_satellite"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/map_type_terrain"
+        android:orderInCategory="99"
+        android:title="@string/menu_item_terrain"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/map_type_hybrid"
+        android:orderInCategory="103"
+        android:title="@string/menu_item_hybrid"
+        app:showAsAction="never" />
+
+</menu>

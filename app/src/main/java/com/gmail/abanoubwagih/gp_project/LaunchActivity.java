@@ -35,27 +35,29 @@ public class LaunchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_launch);
         try {
             context = getApplicationContext();
-            if (!isGooglePlayServicesAvailable()) {
-                finish();
-            }
 
 //            new DeleteImagesTask().execute();
 
+            if (!isGooglePlayServicesAvailable()) {
+                finish();
+            }
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     token = new RegistrationToken();
                     token.onTokenRefresh();
+                    PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.pref_general, false);
+                    PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.pref_notification, false);
                 }
             }).start();
 //        Upload.uploadToFirebase();//uplaod data to firebase
 //        Toast.makeText(LaunchActivity.this, "data upload", Toast.LENGTH_LONG).show();
-
             if (!isPermissionAvailable()) {
                 finish();
             } else {
                 startWork();
             }
+
 
         } catch (Exception e) {
             Log.d(getString(R.string.Tag_launchActivity), e.getMessage());

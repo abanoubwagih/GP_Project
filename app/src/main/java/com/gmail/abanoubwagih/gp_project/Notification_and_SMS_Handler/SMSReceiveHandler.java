@@ -1,4 +1,5 @@
 package com.gmail.abanoubwagih.gp_project.Notification_and_SMS_Handler;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 
 import com.gmail.abanoubwagih.gp_project.BuildingHandle.BuildingDetailsActivty;
+import com.gmail.abanoubwagih.gp_project.BuildingHandle.BuildingListActivity;
 import com.gmail.abanoubwagih.gp_project.BuildingHandle.DataProvidingFromFirebase;
 import com.gmail.abanoubwagih.gp_project.R;
 import com.gmail.abanoubwagih.gp_project.UserHandler.User;
@@ -16,12 +18,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import java.util.HashMap;
+
 /**
  * Created by AbanoubWagih on 6/17/2016.
  */
 public class SMSReceiveHandler extends BroadcastReceiver {
     public static final String BUILDING_ID = "BUILDING_ID";
     private Context myContext;
+
     public SMSReceiveHandler() {
 
     }
@@ -73,7 +77,7 @@ public class SMSReceiveHandler extends BroadcastReceiver {
                         handleListOffline(id);
                         intentTOsmsActivity.putExtra(BUILDING_ID, id);
 
-
+                        this.abortBroadcast();
                         context.startActivity(intentTOsmsActivity);
                     } catch (Exception e) {
                         FirebaseCrash.report(e);
@@ -126,10 +130,16 @@ public class SMSReceiveHandler extends BroadcastReceiver {
                     gson = new Gson();
                     json = gson.toJson(user);
                     prefsEditor.putString(myContext.getString(R.string.usrObject), json);
-//                    prefsEditor.commit();
+                    prefsEditor.commit();
                     prefsEditor.apply();
+
+                    if (BuildingListActivity.buildings != null || !BuildingListActivity.buildings.isEmpty())
+                        BuildingListActivity.buildings.clear();
+                    BuildingListActivity.buildings.addAll(user.getBuilding());
                 }
             }
+            BuildingListActivity.adapter.notifyDataSetChanged();
+            BuildingListActivity.lv.invalidateViews();
         } catch (JsonSyntaxException e) {
             FirebaseCrash.report(e);
         }

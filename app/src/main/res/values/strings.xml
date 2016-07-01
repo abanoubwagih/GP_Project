@@ -62,5 +62,95 @@
     <string name="buildingSafe">safe</string>
     <string name="buildingFire">FIre</string>
     <string name="this_is_your_building">This is your building</string>
+    <string name="title_activity_settings">Settings</string>
 
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_gps">Turn on GPS</string>
+    <string name="pref_description_gps">Locate to street-level(requires more battery plus view of sky)
+    </string>
+
+    <string name="pref_title_name">Name</string>
+    <string name="pref_default_display_name">abanoub</string>
+
+    <string name="pref_title_address">Address</string>
+    <string name="pref_default_display_address">21 al hkim street</string>
+
+    <string name="pref_title_city">City</string>
+    <string name="pref_default_display_city">Cairo</string>
+
+    <string name="pref_title_change_password">Change your password</string>
+    <string name="pref_default_change_password">********</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="Menu_item_setting">setting</string>
+    <string name="menu_item_show_map">menu_show_map</string>
+
+    <string name="menu_item_normal">normal</string>
+    <string name="menu_item_satellite">satellite</string>
+    <string name="menu_item_terrain">terrain</string>
+    <string name="menu_item_hybrid">hybrid</string>
+    <string name="menu_item_none">None</string>
+    <string name="setting_customer_name">setting_customer_name</string>
+    <string name="setting_address">setting_address</string>
+    <string name="setting_city">setting_city</string>
+    <string name="setting_change_password">setting_change_password</string>
+    <string name="setting_gps_switch">setting_gps_switch</string>
 </resources>

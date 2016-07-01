@@ -54,7 +54,7 @@ public class PasswordResetEmail extends AppCompatActivity implements
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Log.d(TAG, "Email sent.");
-                                    Toast.makeText(PasswordResetEmail.this, getString(R.string.mailSent),Toast.LENGTH_LONG).show();
+                                    Toast.makeText(PasswordResetEmail.this, getString(R.string.mailSent), Toast.LENGTH_LONG).show();
                                 }
                             }
                         });

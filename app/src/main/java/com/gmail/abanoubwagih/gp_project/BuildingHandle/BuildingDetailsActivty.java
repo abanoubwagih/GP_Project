@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.gmail.abanoubwagih.gp_project.Log_in_auth_and_Synchronous_Data.SynchronizeData;
 import com.gmail.abanoubwagih.gp_project.MapAndRouteHandler.MapsActivity;
 import com.gmail.abanoubwagih.gp_project.R;
+import com.gmail.abanoubwagih.gp_project.setting.SettingsActivity;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -24,6 +27,9 @@ import java.io.InputStream;
 import static com.gmail.abanoubwagih.gp_project.BuildingHandle.BuildingListActivity.BUILDING_ID;
 
 public class BuildingDetailsActivty extends AppCompatActivity {
+
+    int requestCode = 4141;
+    int buildingIDForMap;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -34,7 +40,7 @@ public class BuildingDetailsActivty extends AppCompatActivity {
         try {
             int buildingID = getIntent().getIntExtra(BUILDING_ID, 0);
 
-            final int buildingIDForMap = buildingID;
+            buildingIDForMap = buildingID;
             Building building = DataProvidingFromFirebase.getBuildingMap().get(buildingID);
             if (building == null) {
                 new SynchronizeData().retriveData();
@@ -83,10 +89,8 @@ public class BuildingDetailsActivty extends AppCompatActivity {
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable(getString(R.string.BuildingGPS), myGPS);
+
                     Intent intent = new Intent(BuildingDetailsActivty.this, MapsActivity.class);
-//                    intent.putExtras(bundle);
                     intent.putExtra(BUILDING_ID, buildingIDForMap);
                     startActivity(intent);
 
@@ -97,6 +101,28 @@ public class BuildingDetailsActivty extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("not work detail", e.getMessage());
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_details_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.menu_item_show_map) {
+            Intent intent = new Intent(BuildingDetailsActivty.this, MapsActivity.class);
+            intent.putExtra(BUILDING_ID, buildingIDForMap);
+            startActivity(intent);
+        }
+
+        if (item.getItemId() == R.id.Menu_item_setting) {
+            startActivityForResult(new Intent(this, SettingsActivity.class), requestCode);
+        }
+        return true;
+
     }
 
     @Override

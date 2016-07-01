@@ -7,18 +7,26 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.gmail.abanoubwagih.gp_project.Log_in_auth_and_Synchronous_Data.SynchronizeData;
 import com.gmail.abanoubwagih.gp_project.R;
 import com.gmail.abanoubwagih.gp_project.UserHandler.User;
+import com.gmail.abanoubwagih.gp_project.setting.SettingsActivity;
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BuildingListActivity extends AppCompatActivity {
@@ -26,8 +34,13 @@ public class BuildingListActivity extends AppCompatActivity {
 
     public static final String BUILDING_ID = "BUILDING_ID";
     public static List<Building> buildings;
-    private BuildingListAdapter adapter;
-    private ListView lv;
+    public static String userName = null;
+    public static BuildingListAdapter adapter;
+    public static ListView lv;
+    public FirebaseDatabase firebaseDatabase;
+    public DatabaseReference mUserReference;
+    public DatabaseReference mDatabase;
+    int requestCode = 1441;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +48,73 @@ public class BuildingListActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_building_list);
-        startService(new Intent(getApplication(), SynchronizeData.class));
+//        startService(new Intent(getApplication(), SynchronizeData.class));
+
+        try {
+            SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferences), MODE_PRIVATE);
+            String name = sharedPreferences.getString(getString(R.string.loginName), "abanoubwagih");
+            userName = name != "abanoubwagih" ?
+                    (name.split("@")[0].contains(".") ? name.split("@")[0].split(".")[0] : name.split("@")[0])
+                    : "abanoubwagih";
+
+            if (userName != null) {
+                if (mDatabase == null) {
+                    firebaseDatabase = FirebaseDatabase.getInstance();
+                    mDatabase = firebaseDatabase.getReference();
+                }
+//        if(userName) userName = "abanoubwagih";
+                if (mUserReference == null) {
+                    mUserReference = mDatabase.child("users").child(userName);
+                    mUserReference.keepSynced(true);
+                }
+
+
+                mUserReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        User user = dataSnapshot.getValue(User.class);
+                        if (user != null) {
+                            DataProvidingFromFirebase.clearBuildingListandMap();
+                            DataProvidingFromFirebase.addBuilding(user.getBuilding());
+                            if (BuildingListActivity.buildings != null) {
+                                if (!BuildingListActivity.buildings.isEmpty()) {
+
+                                    BuildingListActivity.buildings.clear();
+                                    BuildingListActivity.buildings.addAll(user.getBuilding());
+
+                                } else {
+                                    BuildingListActivity.buildings.addAll(user.getBuilding());
+
+                                }
+                            } else {
+                                BuildingListActivity.buildings = new ArrayList<>();
+                                BuildingListActivity.buildings.addAll(user.getBuilding());
+                            }
+                            adapter.notifyDataSetChanged();
+                            lv.invalidateViews();
+                            SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferences), MODE_PRIVATE);
+                            SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+                            Gson gson = new Gson();
+                            String json = gson.toJson(user);
+                            prefsEditor.putString(getString(R.string.usrObject), json);
+                            prefsEditor.apply();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("FailedToLoadSynch", databaseError.getMessage());
+                        FirebaseCrash.report(databaseError.toException());
+                    }
+                });
+            }
+        } catch (Exception e) {
+            FirebaseCrash.report(e);
+            Log.d(getString(R.string.Tag_listActivity), e.getMessage());
+
+        }
+
         try {
 
 
@@ -100,6 +179,71 @@ public class BuildingListActivity extends AppCompatActivity {
 
         try {
             super.onResume();
+            try {
+                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferences), MODE_PRIVATE);
+                String name = sharedPreferences.getString(getString(R.string.loginName), "abanoubwagih");
+                userName = name != "abanoubwagih" ?
+                        (name.split("@")[0].contains(".") ? name.split("@")[0].split(".")[0] : name.split("@")[0])
+                        : "abanoubwagih";
+
+                if (userName != null) {
+                    if (mDatabase == null) {
+                        firebaseDatabase = FirebaseDatabase.getInstance();
+                        mDatabase = firebaseDatabase.getReference();
+                    }
+//        if(userName) userName = "abanoubwagih";
+                    if (mUserReference == null) {
+                        mUserReference = mDatabase.child("users").child(userName);
+                        mUserReference.keepSynced(true);
+                    }
+
+
+                    mUserReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            User user = dataSnapshot.getValue(User.class);
+                            if (user != null) {
+                                DataProvidingFromFirebase.clearBuildingListandMap();
+                                DataProvidingFromFirebase.addBuilding(user.getBuilding());
+                                if (BuildingListActivity.buildings != null) {
+                                    if (!BuildingListActivity.buildings.isEmpty()) {
+
+                                        BuildingListActivity.buildings.clear();
+                                        BuildingListActivity.buildings.addAll(user.getBuilding());
+
+                                    } else {
+                                        BuildingListActivity.buildings.addAll(user.getBuilding());
+
+                                    }
+                                } else {
+                                    BuildingListActivity.buildings = new ArrayList<>();
+                                    BuildingListActivity.buildings.addAll(user.getBuilding());
+                                }
+                                adapter.notifyDataSetChanged();
+                                lv.invalidateViews();
+                                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferences), MODE_PRIVATE);
+                                SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+                                Gson gson = new Gson();
+                                String json = gson.toJson(user);
+                                prefsEditor.putString(getString(R.string.usrObject), json);
+                                prefsEditor.apply();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.e("FailedToLoadSynch", databaseError.getMessage());
+                            FirebaseCrash.report(databaseError.toException());
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                FirebaseCrash.report(e);
+                Log.d(getString(R.string.Tag_listActivity), e.getMessage());
+
+            }
+
             if (buildings == null || buildings.isEmpty()) {
                 SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferences), MODE_PRIVATE);
                 Gson gson = new Gson();
@@ -124,6 +268,71 @@ public class BuildingListActivity extends AppCompatActivity {
     protected void onStart() {
         try {
             super.onStart();
+            try {
+                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferences), MODE_PRIVATE);
+                String name = sharedPreferences.getString(getString(R.string.loginName), "abanoubwagih");
+                userName = name != "abanoubwagih" ?
+                        (name.split("@")[0].contains(".") ? name.split("@")[0].split(".")[0] : name.split("@")[0])
+                        : "abanoubwagih";
+
+                if (userName != null) {
+                    if (mDatabase == null) {
+                        firebaseDatabase = FirebaseDatabase.getInstance();
+                        mDatabase = firebaseDatabase.getReference();
+                    }
+//        if(userName) userName = "abanoubwagih";
+                    if (mUserReference == null) {
+                        mUserReference = mDatabase.child("users").child(userName);
+                        mUserReference.keepSynced(true);
+                    }
+
+
+                    mUserReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            User user = dataSnapshot.getValue(User.class);
+                            if (user != null) {
+                                DataProvidingFromFirebase.clearBuildingListandMap();
+                                DataProvidingFromFirebase.addBuilding(user.getBuilding());
+                                if (BuildingListActivity.buildings != null) {
+                                    if (!BuildingListActivity.buildings.isEmpty()) {
+
+                                        BuildingListActivity.buildings.clear();
+                                        BuildingListActivity.buildings.addAll(user.getBuilding());
+
+                                    } else {
+                                        BuildingListActivity.buildings.addAll(user.getBuilding());
+
+                                    }
+                                } else {
+                                    BuildingListActivity.buildings = new ArrayList<>();
+                                    BuildingListActivity.buildings.addAll(user.getBuilding());
+                                }
+                                adapter.notifyDataSetChanged();
+                                lv.invalidateViews();
+                                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferences), MODE_PRIVATE);
+                                SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+                                Gson gson = new Gson();
+                                String json = gson.toJson(user);
+                                prefsEditor.putString(getString(R.string.usrObject), json);
+                                prefsEditor.apply();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.e("FailedToLoadSynch", databaseError.getMessage());
+                            FirebaseCrash.report(databaseError.toException());
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                FirebaseCrash.report(e);
+                Log.d(getString(R.string.Tag_listActivity), e.getMessage());
+
+            }
+
             if (buildings == null || buildings.isEmpty()) {
 
                 SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferences), MODE_PRIVATE);
@@ -152,4 +361,20 @@ public class BuildingListActivity extends AppCompatActivity {
 //        onSaveInstanceState();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_list_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        if (item.getItemId() == R.id.Menu_item_setting) {
+            startActivityForResult(new Intent(this, SettingsActivity.class), requestCode);
+        }
+        return true;
+
+    }
 }

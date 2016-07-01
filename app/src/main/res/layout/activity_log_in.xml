@@ -74,6 +74,7 @@
                 android:layout_weight="1"
                 android:text="@string/sign_in"
                 android:theme="@style/ThemeOverlay.MyDarkButton" />
+
             <Button
                 android:id="@+id/email_forget_password_button"
                 android:layout_width="0dp"

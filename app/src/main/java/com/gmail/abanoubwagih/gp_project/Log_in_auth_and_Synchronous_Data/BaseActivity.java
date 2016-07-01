@@ -9,9 +9,9 @@ public class BaseActivity extends AppCompatActivity {
 
     public void showProgressDialog(int value) {
 
-            mProgressDialog = new ProgressDialog(this);
+        mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setMessage(getString(value));
-            mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setIndeterminate(true);
 
 
         mProgressDialog.show();

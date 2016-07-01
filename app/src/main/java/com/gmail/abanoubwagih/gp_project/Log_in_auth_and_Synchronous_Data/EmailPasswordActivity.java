@@ -46,6 +46,7 @@ public class EmailPasswordActivity extends BaseActivity implements
     public DatabaseReference mUserReference;
     public RetrieveData retrieveData;
     FirebaseUser user;
+    AlertDialog alertDialog;
     private EditText mEmailField;
     private EditText mPasswordField;
     private SharedPreferences sharedPreferences;
@@ -135,6 +136,9 @@ public class EmailPasswordActivity extends BaseActivity implements
             if (mAuthListener != null) {
                 mAuth.removeAuthStateListener(mAuthListener);
             }
+            if (alertDialog != null) {
+                alertDialog.dismiss();
+            }
         } catch (Exception e) {
             Log.d(getString(R.string.Tag_EmailPasswordActivity), e.getMessage());
             FirebaseCrash.report(e);
@@ -143,6 +147,19 @@ public class EmailPasswordActivity extends BaseActivity implements
     }
     // [END on_stop_remove_listener]
 
+
+    @Override
+    public void onDestroy() {
+        try {
+            if (alertDialog != null) {
+                alertDialog.dismiss();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.onDestroy();
+
+    }
 
     private void signIn(String email, String password) {
 
@@ -247,7 +264,7 @@ public class EmailPasswordActivity extends BaseActivity implements
 
                 if (!isNetworkConnected()) {
 
-                    new AlertDialog.Builder(this).setMessage("your Internet connection \nis not available")
+                    alertDialog = new AlertDialog.Builder(this).setMessage("your Internet connection \nis not available")
                             .setPositiveButton("open", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -266,7 +283,8 @@ public class EmailPasswordActivity extends BaseActivity implements
                                     dialog.cancel();
                                     finish();
                                 }
-                            }).create().show();
+                            }).create();
+                    alertDialog.show();
                 }
 //                Toast.makeText(this, "please log in ", Toast.LENGTH_LONG).show();
                 findViewById(R.id.email_password_buttons).setVisibility(View.VISIBLE);

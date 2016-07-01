@@ -15,8 +15,10 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.LOCATION_PROVIDERS_ALLOWED" />
 
     <application
+        android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -35,9 +37,7 @@
             android:name=".Log_in_auth_and_Synchronous_Data.EmailPasswordActivity"
             android:label="@string/label_emailpassword"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".BuildingHandle.BuildingListActivity"
-            android:launchMode="singleTop" />
+        <activity android:name=".BuildingHandle.BuildingListActivity" />
         <activity
             android:name=".BuildingHandle.BuildingDetailsActivty"
             android:parentActivityName=".BuildingHandle.BuildingListActivity" />
@@ -93,7 +93,11 @@
 
         <activity
             android:name=".MapAndRouteHandler.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
+        <activity
+            android:name=".setting.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".BuildingHandle.BuildingListActivity"></activity>
     </application>
 
 </manifest>

@@ -30,6 +30,7 @@ public final class DataProvidingFromFirebase {
         if (!buildingList.isEmpty()) buildingList.clear();
         if (!buildingMap.isEmpty()) buildingMap.clear();
     }
+
     public static void addBuilding(List<Building> buildings) {
 
 

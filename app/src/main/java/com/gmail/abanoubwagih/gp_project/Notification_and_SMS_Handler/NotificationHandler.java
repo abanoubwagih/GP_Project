@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.gmail.abanoubwagih.gp_project.BuildingHandle.BuildingDetailsActivty;
+import com.gmail.abanoubwagih.gp_project.BuildingHandle.BuildingListActivity;
 import com.gmail.abanoubwagih.gp_project.BuildingHandle.DataProvidingFromFirebase;
 import com.gmail.abanoubwagih.gp_project.R;
 import com.gmail.abanoubwagih.gp_project.UserHandler.User;
@@ -65,10 +66,16 @@ public class NotificationHandler extends FirebaseMessagingService {
                     gson = new Gson();
                     json = gson.toJson(user);
                     prefsEditor.putString(getString(R.string.usrObject), json);
-//                    prefsEditor.commit();
+                    prefsEditor.commit();
                     prefsEditor.apply();
+                    if (BuildingListActivity.buildings != null || !BuildingListActivity.buildings.isEmpty())
+                        BuildingListActivity.buildings.clear();
+                    BuildingListActivity.buildings.addAll(user.getBuilding());
+
                 }
             }
+            BuildingListActivity.adapter.notifyDataSetChanged();
+            BuildingListActivity.lv.invalidateViews();
         } catch (JsonSyntaxException e) {
             FirebaseCrash.report(e);
         }
